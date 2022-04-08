@@ -1,0 +1,94 @@
+{
+    "env": {
+        "browser": true,
+        "es2021": true
+    },
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:@typescript-eslint/recommended"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": "latest",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "react",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "quotes": ["error", "single"],
+        "no-trailing-spaces": "warn", // 空行最多不能超过1行
+        "no-mixed-spaces-and-tabs": "error", // 一行最后不允许有空格
+        "keyword-spacing": "warn", // 混用tab和空格
+        "space-before-blocks": "warn", // 关键字前后的空格，例如if
+        "space-infix-ops": "warn", // 块前的空格
+        "semi": [1, "never"], // 函数定义时括号前面要不要有空格
+        "no-extra-semi": "error", // 语句强制分号结尾
+        "semi-spacing": [ // 多余的分号
+            1,
+            {
+            "before": false,
+            "after": true
+            }
+        ],
+        "eqeqeq": "warn", // 分后前后空格
+        "no-debugger": "error", // 必须使用全等
+        "no-multi-spaces": "warn", // 禁止使用debugger
+        "eol-last": "warn", // 多余的空格
+        "comma-spacing": [ //操作符周围的空格
+            1,
+            {
+            "before": false,
+            "after": true
+            }
+        ],
+        "object-curly-spacing": [ // 逗号的空格
+            1,
+            "always"
+        ],
+        "space-in-parens": [ // 大括号内是否允许不必要的空格
+            1,
+            "never"
+        ],
+        "key-spacing": [ // 小括号里面要不要有空格
+            1,
+            {
+            "beforeColon": false,
+            "afterColon": true
+            }
+        ],
+        "spaced-comment": 0, // 对象字面量中冒号的前后空格
+        "arrow-spacing": [ // 注释风格有空格
+            1,
+            {
+            "before": true,
+            "after": true
+            }
+        ],
+        "array-bracket-spacing": [
+            1,
+            "never"
+        ],
+        "space-unary-ops": [ // [ 之前和 ] 之后不能带空格
+            1,
+            {
+            "words": true,
+            "nonwords": false
+            }
+        ],
+        "use-isnan": "error",
+        "brace-style": [ // 禁止比较时使用NaN，只能用isNaN()
+            1,
+            "1tbs",
+            {
+            "allowSingleLine": true
+            }
+        ],
+        "no-throw-literal": "error", // if while function 后面的{必须与if在同一行
+    }
+}

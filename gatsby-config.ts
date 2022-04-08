@@ -18,6 +18,8 @@ const config: GatsbyConfig = {
     },
     "gatsby-plugin-mdx",
     "gatsby-transformer-sharp",
+    'gatsby-plugin-babel-optional-chaining', // 可选链
+    'gatsby-plugin-nullish-coalescing-operator', // 双问号
   ],
 }
 
