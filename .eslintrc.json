@@ -37,6 +37,7 @@
       { "extensions": [".jsx", ".tsx"] }
     ],
     "react/prop-types": "off",
+    "react/require-default-props": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-var-requires": "off",
     "react/no-danger": "off",
@@ -51,6 +52,7 @@
         "ts": "never",
         "tsx": "never"
       }
-    ]
+    ],
+    "jsx-quotes": ["error", "prefer-single"]
   }
 }

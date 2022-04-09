@@ -26,6 +26,7 @@
     "@mdx-js/react": "v1",
     "gatsby": "^4.11.2",
     "gatsby-plugin-babel-optional-chaining": "^1.0.0",
+    "gatsby-plugin-css-modules-typings": "^1.0.1",
     "gatsby-plugin-image": "^2.11.1",
     "gatsby-plugin-less": "^6.11.0",
     "gatsby-plugin-mdx": "^3.11.1",
@@ -46,10 +47,12 @@
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.18.0",
     "@typescript-eslint/parser": "^5.18.0",
+    "css-loader": "^6.7.1",
     "eslint": "^8.12.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.0",
+    "eslint-import-resolver-webpack": "^0.13.2",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.5.1",
@@ -57,7 +60,10 @@
     "eslint-plugin-react-hooks": "^4.4.0",
     "eslint-webpack-plugin": "^3.1.1",
     "gatsby-plugin-eslint": "^4.0.2",
+    "less": "^4.1.2",
+    "less-loader": "^10.2.0",
     "prettier": "^2.6.2",
+    "style-loader": "^3.3.1",
     "typescript": "^4.6.3"
   }
 }

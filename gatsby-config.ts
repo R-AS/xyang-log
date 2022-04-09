@@ -1,5 +1,5 @@
-import type { GatsbyConfig } from 'gatsby';
-import { resolve } from 'path';
+import type { GatsbyConfig } from 'gatsby'
+import { resolve } from 'path'
 
 const config: GatsbyConfig = {
   siteMetadata: {
@@ -17,23 +17,12 @@ const config: GatsbyConfig = {
       },
     },
     'gatsby-plugin-less',
+    // 'gatsby-plugin-css-modules-typings',
     'gatsby-plugin-mdx',
     'gatsby-transformer-sharp',
     'gatsby-plugin-babel-optional-chaining', // 可选链
     'gatsby-plugin-nullish-coalescing-operator', // 双问号
-    {
-      resolve: 'gatsby-plugin-eslint',
-      options: {
-        test: /\.js$|\.jsx$|\.ts$|\.tsx$/,
-        exclude: /(node_modules|.cache|public)/,
-        stages: ['develop'],
-        options: {
-          emitWarning: true,
-          failOnError: false,
-        },
-      },
-    },
   ],
-};
+}
 
-export default config;
+export default config
