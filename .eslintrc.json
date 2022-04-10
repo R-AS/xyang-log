@@ -43,16 +43,24 @@
     "react/no-danger": "off",
     "react/no-unescaped-entities": "off",
     "import/no-extraneous-dependencies": "off",
-    "import/extensions": [
-      "error",
-      "ignorePackages",
+    "import/no-unresolved": [
+      2,
       {
-        "js": "never",
-        "jsx": "never",
-        "ts": "never",
-        "tsx": "never"
+        "ignore": ["^@/"] // @ 是设置的路径别名
       }
     ],
-    "jsx-quotes": ["error", "prefer-single"]
+    // "import/extensions": [
+    //   "error",
+    //   "ignorePackages",
+    //   {
+    //     "js": "never",
+    //     "jsx": "never",
+    //     "ts": "never",
+    //     "tsx": "never"
+    //   }
+    // ],
+    "import/extensions": "off",
+    "jsx-quotes": ["error", "prefer-single"],
+    "global-require": 0
   }
 }

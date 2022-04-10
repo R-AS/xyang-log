@@ -17,7 +17,6 @@ const config: GatsbyConfig = {
       },
     },
     'gatsby-plugin-less',
-    // 'gatsby-plugin-css-modules-typings',
     'gatsby-plugin-mdx',
     'gatsby-transformer-sharp',
     'gatsby-plugin-babel-optional-chaining', // 可选链

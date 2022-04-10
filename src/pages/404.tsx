@@ -32,7 +32,7 @@ function NotFoundPage() {
       <h1 style={headingStyles}>Page not found</h1>
       <p style={paragraphStyles}>
         Sorry{' '}
-        <span role="img" aria-label="Pensive emoji">
+        <span role='img' aria-label='Pensive emoji'>
           😔
         </span>{' '}
         we couldn’t find what you were looking for.
@@ -45,7 +45,7 @@ function NotFoundPage() {
           </>
         ) : null}
         <br />
-        <Link to="/">Go home</Link>.
+        <Link to='/'>Go home</Link>.
       </p>
     </main>
   )
