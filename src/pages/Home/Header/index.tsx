@@ -1,4 +1,5 @@
 import React from 'react'
+import { useStaticQuery, graphql } from 'gatsby'
 import { Grid, Box, Avatar, Text } from 'grommet/components'
 import { UserFemale } from 'grommet-icons'
 import * as styles from './index.module.less'
@@ -28,6 +29,18 @@ const areas = SOCIALS.map((social, index) => ({
 }))
 
 function Header() {
+  const data = useStaticQuery(graphql`
+    query {
+      site {
+        siteMetadata {
+          author {
+            name
+            desc
+          }
+        }
+      }
+    }
+  `)
   return (
     <Grid
       rows={['small']}
@@ -42,9 +55,11 @@ function Header() {
         <Avatar src={AVATAR_URL} size='2xl' />
       </Box>
       <Box gridArea='info'>
-        <Text margin={{ bottom: 'small' }}>小扬记🍳</Text>
-        <Text margin={{ bottom: 'small' }}>
-          爱好做饭的程序员🐑｜梦想有个大厨饭
+        <Text margin={{ bottom: 'small' }} color='dark-1'>
+          {data?.site?.siteMetadata?.author?.name}
+        </Text>
+        <Text margin={{ bottom: 'small' }} color='dark-1'>
+          {data?.site?.siteMetadata?.author?.desc}
         </Text>
         <Grid rows={['xsmall']} columns={columns} areas={areas}>
           {SOCIALS.map(social => (

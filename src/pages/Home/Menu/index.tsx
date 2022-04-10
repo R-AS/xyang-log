@@ -114,9 +114,10 @@ function Menu() {
         <Tab title={tab.name} key={tab.id}>
           <Box pad='auto'>
             {nextTabs?.map((nextTab: TTab) => (
-              <Tag key={nextTab.id} name={nextTab.name} value='' />
+              <Box pad='xsmall' key={nextTab.id}>
+                <Tag name={nextTab.name} value='' />
+              </Box>
             ))}
-            {tab.name}
             <BlogList list={blogs} />
           </Box>
         </Tab>
