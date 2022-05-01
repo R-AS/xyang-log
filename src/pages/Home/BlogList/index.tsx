@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react'
 import { Grid, Pagination } from 'grommet/components'
 import { TBlog } from '@/pages/Home/types'
 import BlogItem from './BlogItem'
+import * as styles from './index.module.less'
 
 type TProps = {
   list: TBlog[]
@@ -63,7 +64,7 @@ function BlogList(props: TProps) {
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
-    <Grid {...gridConf}>
+    <Grid className={styles.blogList} {...gridConf}>
       {blogs.map((blog: TBlog) => (
         <BlogItem key={blog.id} item={blog} />
       ))}

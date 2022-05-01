@@ -1,7 +1,6 @@
-import type { GatsbyConfig } from 'gatsby'
-import { resolve } from 'path'
+const { resolve } = require('path')
 
-const config: GatsbyConfig = {
+const config = {
   siteMetadata: {
     title: 'xyang-log',
     author: {
@@ -28,4 +27,4 @@ const config: GatsbyConfig = {
   ],
 }
 
-export default config
+module.exports = config

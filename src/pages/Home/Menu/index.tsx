@@ -1,14 +1,21 @@
-import React, { useEffect, useReducer, Reducer } from 'react'
+import React, { useEffect, useContext, useReducer, Reducer } from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
-import { Tabs, Tab, Tag, Box } from 'grommet/components'
+import { Grommet } from 'grommet'
+import { Tabs, Tab, Tag, Box, Grid } from 'grommet/components'
 import { TTab, TBlog, TMenuData } from '@/pages/Home/types'
+import getDirName from '@/utils/dirNameGetter'
+import LayoutContext from '@/utils/layoutContext'
+import { TAG_COLORS } from '@/config/colors'
 import BlogList from '../BlogList'
+import * as styles from './index.module.less'
+import { useMemo } from 'react'
 
 type TState = {
   tabs: TTab[] // 文章大类型
   nextTabs: TTab[] // 文章小类型
   blogs: TBlog[] // 博客列表
   activeIndex: number // 当前所在 tab index
+  isExpand: boolean // 面板是否展开
 }
 
 function Menu() {
@@ -19,9 +26,10 @@ function Menu() {
       nextTabs: [],
       blogs: [],
       activeIndex: 0,
+      isExpand: false,
     }
   )
-  const { tabs, nextTabs, blogs } = state
+  const { tabs, nextTabs, blogs, isExpand } = state
 
   const data: TMenuData = useStaticQuery(graphql`
     query {
@@ -108,21 +116,114 @@ function Menu() {
     setState({ nextTabs: nextTabsTemp, blogs: blogsTemp as TBlog[] })
   }
 
+  const useLayoutContext = useContext(LayoutContext)
+
+  const nextTabsList = useMemo(() => {
+    const isSmallScreen = useLayoutContext.size === 'small'
+    const colsCount = isSmallScreen ? 4 : 7
+    return isExpand ? nextTabs : nextTabs.slice(0, colsCount)
+  }, [isExpand, useLayoutContext.size, nextTabs.length])
+
+  // 根据视窗宽度分配 tabs 网格布局
+  const nextTabGridConf = useMemo(() => {
+    const isSmallScreen = useLayoutContext.size === 'small'
+    const colsCount = isSmallScreen ? 4 : 7
+    const rowsCount =
+      nextTabsList.length > colsCount
+        ? Math.floor(nextTabsList.length / colsCount) + 1
+        : 1
+
+    return {
+      rows: Array.from(new Array(rowsCount), () => 'xsmall'),
+      columns: Array.from(new Array(colsCount), () => 'xsmall'),
+      areas: nextTabsList.map((nextTab, index) => {
+        const rows = Math.floor(index / colsCount) // 当前处于第几行
+        const colStart = rows ? index - rows * colsCount : index
+        let colEnd = colStart + 1
+        colEnd = colEnd >= colsCount ? colsCount - 1 : colEnd
+        const rowStart = rows
+        const rowEnd = rowStart >= rowsCount ? rowsCount : rowStart
+
+        return {
+          name: nextTab.id,
+          start: [colStart, rowStart],
+          end: [colEnd, rowEnd],
+        }
+      }),
+      gap: 'small',
+      gridTemplateRows: `repeat(${rowsCount}, 24px)`,
+      showExpandBtn: nextTabs.length > colsCount, // 展示扩展按钮
+    }
+  }, [useLayoutContext.size, nextTabsList.length])
+
+  useEffect(() => {
+    setState({ isExpand: false })
+  }, [nextTabGridConf.showExpandBtn, state.activeIndex])
+
   return (
-    <Tabs onActive={onActive}>
-      {tabs?.map((tab: TTab) => (
-        <Tab title={tab.name} key={tab.id}>
-          <Box pad='auto'>
-            {nextTabs?.map((nextTab: TTab) => (
-              <Box pad='xsmall' key={nextTab.id}>
-                <Tag name={nextTab.name} value='' />
-              </Box>
-            ))}
-            <BlogList list={blogs} />
-          </Box>
-        </Tab>
-      ))}
-    </Tabs>
+    <Grommet
+      theme={{
+        tabs: {
+          header: {
+            border: {
+              side: 'bottom',
+              size: 'xsmall',
+              style: 'solid',
+              color: 'light-1',
+            },
+          },
+        },
+      }}
+    >
+      <Tabs onActive={onActive}>
+        {tabs?.map((tab: TTab, index: number) => (
+          <Tab
+            className={`${styles.menuBtn} ${
+              index === state.activeIndex ? styles.menuBtnActive : ''
+            }`}
+            title={getDirName(tab.name)}
+            key={tab.id}
+          >
+            <Box pad='auto' style={{ position: 'relative' }}>
+              {nextTabGridConf.showExpandBtn && (
+                <Box
+                  className={`${styles.menuExpandBtn} ${
+                    isExpand ? styles.menuExpandBtnRotate : ''
+                  }`}
+                  onClick={() => {
+                    setState({ isExpand: !state.isExpand })
+                  }}
+                />
+              )}
+              <Grid
+                className={styles.nextTabsGrid}
+                // eslint-disable-next-line react/jsx-props-no-spreading
+                {...nextTabGridConf}
+                align='center'
+                style={{ gridTemplateRows: nextTabGridConf.gridTemplateRows }}
+              >
+                {nextTabsList?.map((nextTab: TTab, i: number) => (
+                  <Box
+                    key={nextTab.id}
+                    gridArea={nextTab.id}
+                    className={styles.menuTagBox}
+                  >
+                    <Tag
+                      className={`${styles.menuTag} ${
+                        index !== state.activeIndex ? styles.menuTagActive : ''
+                      }`}
+                      name={getDirName(nextTab.name)}
+                      value=''
+                    />
+                  </Box>
+                ))}
+              </Grid>
+              <BlogList className={styles.blogList} list={blogs} />
+            </Box>
+          </Tab>
+        ))}
+      </Tabs>
+    </Grommet>
   )
 }
 
