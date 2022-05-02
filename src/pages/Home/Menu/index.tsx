@@ -1,20 +1,25 @@
-import React, { useEffect, useContext, useReducer, Reducer } from 'react'
+import React, {
+  useEffect,
+  useContext,
+  useReducer,
+  useMemo,
+  Reducer,
+} from 'react'
 import { useStaticQuery, graphql } from 'gatsby'
 import { Grommet } from 'grommet'
 import { Tabs, Tab, Tag, Box, Grid } from 'grommet/components'
 import { TTab, TBlog, TMenuData } from '@/pages/Home/types'
 import getDirName from '@/utils/dirNameGetter'
 import LayoutContext from '@/utils/layoutContext'
-import { TAG_COLORS } from '@/config/colors'
 import BlogList from '../BlogList'
 import * as styles from './index.module.less'
-import { useMemo } from 'react'
 
 type TState = {
   tabs: TTab[] // 文章大类型
   nextTabs: TTab[] // 文章小类型
   blogs: TBlog[] // 博客列表
   activeIndex: number // 当前所在 tab index
+  nextTabActiveIndex: number // 当前子品类 tab index
   isExpand: boolean // 面板是否展开
 }
 
@@ -26,6 +31,7 @@ function Menu() {
       nextTabs: [],
       blogs: [],
       activeIndex: 0,
+      nextTabActiveIndex: 0,
       isExpand: false,
     }
   )
@@ -88,14 +94,14 @@ function Menu() {
     })
   }, [data?.allDirectory?.nodes])
 
-  const onActive = (index: number) => {
-    setState({ activeIndex: index })
+  const onActive = (index: number, nextIndex?: number) => {
+    setState({ activeIndex: index, nextTabActiveIndex: nextIndex || 0 })
     const preDirName = tabs?.[index]?.name
     // 获取文章小类
     const nextTabsTemp = data?.allDirectory?.nodes?.filter(tab =>
       new RegExp(`blog/${preDirName}$`).test(tab?.dir)
     )
-    const activeNextTabName = nextTabsTemp?.[0]?.name
+    const activeNextTabName = nextTabsTemp?.[nextIndex || 0]?.name
     // 获取文章列表
     const blogsTemp = data?.allMdx?.nodes
       ?.map(blog => {
@@ -114,6 +120,11 @@ function Menu() {
       })
       .filter(blog => blog)
     setState({ nextTabs: nextTabsTemp, blogs: blogsTemp as TBlog[] })
+  }
+
+  const onNextTabActive = (index: number) => {
+    if (index === state.nextTabActiveIndex) return
+    onActive(state.activeIndex, index)
   }
 
   const useLayoutContext = useContext(LayoutContext)
@@ -207,10 +218,13 @@ function Menu() {
                     key={nextTab.id}
                     gridArea={nextTab.id}
                     className={styles.menuTagBox}
+                    onClick={() => onNextTabActive(i)}
                   >
                     <Tag
                       className={`${styles.menuTag} ${
-                        index !== state.activeIndex ? styles.menuTagActive : ''
+                        i === state.nextTabActiveIndex
+                          ? styles.menuTagActive
+                          : ''
                       }`}
                       name={getDirName(nextTab.name)}
                       value=''

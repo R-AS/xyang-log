@@ -3,13 +3,14 @@
   margin-right: 10px;
   height: 40px;
   min-width: 112px;
-  color: #fff;
+  color: #f8f8f8;
   text-align: center;
+
   &:last-child {
     margin-right: 0px;
   }
   &-active {
-    border: 1px solid #fff;
+    border: 1px solid #f8f8f8;
     border-bottom-width: 0px;
     &::after {
       position: absolute;
@@ -24,7 +25,7 @@
   & div {
     border-bottom: 0px;
     & span {
-      color: #fff;
+      color: #f8f8f8;
     }
   }
 }
@@ -37,9 +38,9 @@
 }
 .menu-tag {
   &-box {
-    border-radius: 24px;
-    &:last-child {
-      margin-right: 0px;
+    // border-radius: 24px;
+    &:hover {
+      cursor: pointer;
     }
   }
   display: flex;
@@ -48,10 +49,11 @@
   height: 24px;
   border-radius: 0px;
   background-color: transparent;
-  color: #fff;
-  border: 1px solid #dadada;
+  color: #999999;
+  border: 1px solid #999999;
   &-active {
-    border: 1px solid #fff;
+    color: #f8f8f8;
+    border: 1px solid #f8f8f8;
   }
 }
 
