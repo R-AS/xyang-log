@@ -8,12 +8,13 @@ import * as styles from './index.module.less'
 
 type TProps = {
   list: TBlog[]
+  activeTabName: string
 }
 
 const step = 8 // 每页 item 个数
 
 function BlogList(props: TProps) {
-  const { list } = props
+  const { list, activeTabName } = props
   const [blogs, setBlogs] = useState<TBlog[]>([])
   const [activeIndex, setActiveIndex] = useState<number>(1)
 
@@ -106,7 +107,7 @@ function BlogList(props: TProps) {
       {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <Grid className={styles.blogList} {...gridConf} justifyContent='center'>
         {blogs.map((blog: TBlog) => (
-          <BlogItem key={blog.id} item={blog} />
+          <BlogItem key={blog.id} item={blog} activeTabName={activeTabName} />
         ))}
         {!isSmallScreen && (
           <Pagination

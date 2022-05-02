@@ -20,6 +20,7 @@ type TState = {
   blogs: TBlog[] // 博客列表
   activeIndex: number // 当前所在 tab index
   nextTabActiveIndex: number // 当前子品类 tab index
+  nextTabActiveName: string // 子品类名称
   isExpand: boolean // 面板是否展开
 }
 
@@ -32,10 +33,11 @@ function Menu() {
       blogs: [],
       activeIndex: 0,
       nextTabActiveIndex: 0,
+      nextTabActiveName: '',
       isExpand: false,
     }
   )
-  const { tabs, nextTabs, blogs, isExpand } = state
+  const { tabs, nextTabs, blogs, isExpand, nextTabActiveName } = state
 
   const data: TMenuData = useStaticQuery(graphql`
     query {
@@ -51,6 +53,7 @@ function Menu() {
           frontmatter {
             title
             date
+            thumbnail
           }
           id
           fileAbsolutePath
@@ -90,12 +93,17 @@ function Menu() {
     setState({
       tabs: tabsTemp,
       nextTabs: nextTabsTemp,
+      nextTabActiveName: activeNextTabName,
       blogs: blogsTemp as TBlog[],
     })
   }, [data?.allDirectory?.nodes])
 
   const onActive = (index: number, nextIndex?: number) => {
-    setState({ activeIndex: index, nextTabActiveIndex: nextIndex || 0 })
+    setState({
+      activeIndex: index,
+      nextTabActiveIndex: nextIndex || 0,
+      nextTabActiveName: '',
+    })
     const preDirName = tabs?.[index]?.name
     // 获取文章小类
     const nextTabsTemp = data?.allDirectory?.nodes?.filter(tab =>
@@ -119,7 +127,11 @@ function Menu() {
         return undefined
       })
       .filter(blog => blog)
-    setState({ nextTabs: nextTabsTemp, blogs: blogsTemp as TBlog[] })
+    setState({
+      nextTabs: nextTabsTemp,
+      blogs: blogsTemp as TBlog[],
+      nextTabActiveName: activeNextTabName,
+    })
   }
 
   const onNextTabActive = (index: number) => {
@@ -232,7 +244,11 @@ function Menu() {
                   </Box>
                 ))}
               </Grid>
-              <BlogList className={styles.blogList} list={blogs} />
+              <BlogList
+                className={styles.blogList}
+                list={blogs}
+                activeTabName={nextTabActiveName}
+              />
             </Box>
           </Tab>
         ))}

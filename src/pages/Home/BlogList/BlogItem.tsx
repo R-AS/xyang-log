@@ -6,13 +6,14 @@ import * as styles from './BlogItem.module.less'
 
 type TProps = {
   item: TBlog
+  activeTabName: string
 }
 function BlogItem(props: TProps) {
-  const { item } = props
+  const { item, activeTabName } = props
 
   const onClick = () => {
     const link = item.fileAbsolutePath.match(/src(.+).mdx/)?.[1] ?? ''
-    navigate(link)
+    navigate(link, { state: { type: activeTabName } })
   }
 
   return (
@@ -24,11 +25,7 @@ function BlogItem(props: TProps) {
       onClick={onClick}
     >
       <CardBody justify='end' className={styles.cardBody}>
-        <Image
-          className={styles.cardImg}
-          fit='cover'
-          src='https://r-as.github.io/static/a5fca259737ffe29bc0d50ea941b53af/2a4de/avatar.png'
-        />
+        <Image className={styles.cardImg} fit='cover' src={item.thumbnail} />
         <Text color='light-1' className={styles.cardTitle}>
           {item.title}
         </Text>
