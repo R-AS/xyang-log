@@ -3,6 +3,7 @@ import { graphql } from 'gatsby'
 import { MDXRenderer } from 'gatsby-plugin-mdx'
 import { Heading, Text, Box } from 'grommet'
 import Layout from '@/components/Layout'
+import TableOfContents from '@/components/TableOfContents'
 import getDirName from '@/utils/dirNameGetter'
 
 function BlogPost(props) {
@@ -26,6 +27,7 @@ function BlogPost(props) {
           {type ? ` - ${getDirName(type)}` : ''}
         </Text>
         <Box style={{ borderBottom: '1px solid' }} />
+        <TableOfContents tableOfContents={data?.mdx?.tableOfContents?.items} />
         <Box style={{ fontSize: '20px' }}>
           <MDXRenderer>{data.mdx.body}</MDXRenderer>
         </Box>
@@ -43,7 +45,7 @@ export const query = graphql`
       }
       body
       timeToRead
-      id
+      tableOfContents
     }
   }
 `

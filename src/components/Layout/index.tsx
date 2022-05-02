@@ -1,5 +1,5 @@
 import React, { useContext, useMemo } from 'react'
-import { useStaticQuery, graphql } from 'gatsby'
+import { useStaticQuery, graphql, navigate } from 'gatsby'
 import { ResponsiveContext } from 'grommet'
 import { Header, Box, Button, Menu, Heading, Text } from 'grommet/components'
 import { Home as IconHome } from 'grommet-icons'
@@ -25,15 +25,20 @@ function Layout(props: TProps) {
   const size = useContext(ResponsiveContext)
   const contextValue = useMemo(() => ({ size }), [size])
 
+  const toHome = () => {
+    navigate('/')
+  }
+
   return (
     <ResponsiveContext.Consumer>
       {() => (
         <LayoutContext.Provider value={contextValue}>
           <Box background='dark-1' style={{ minHeight: '100vh' }}>
             <Header background='header' className={styles?.layoutHeader}>
-              <Button icon={<IconHome />} hoverIndicator />
-              <Heading>{title || data?.site?.siteMetadata?.title}</Heading>
-              <Menu label='account' items={[{ label: 'logout' }]} />
+              <Button icon={<IconHome />} hoverIndicator onClick={toHome} />
+              <Heading size='small'>{data?.site?.siteMetadata?.title}</Heading>
+              <div />
+              {/* <Menu label='account' items={[{ label: 'logout' }]} /> */}
             </Header>
             {children}
             <Text

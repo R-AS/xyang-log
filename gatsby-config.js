@@ -20,10 +20,16 @@ const config = {
       },
     },
     'gatsby-plugin-less',
-    'gatsby-plugin-mdx',
     'gatsby-transformer-sharp',
     'gatsby-plugin-babel-optional-chaining', // 可选链
     'gatsby-plugin-nullish-coalescing-operator', // 双问号
+
+    {
+      resolve: 'gatsby-plugin-mdx',
+      options: {
+        gatsbyRemarkPlugins: ['gatsby-remark-autolink-headers'],
+      },
+    },
   ],
 }
 
